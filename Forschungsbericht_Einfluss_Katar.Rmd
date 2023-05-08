@@ -1,0 +1,495 @@
+---
+title: "Forschungsbericht"
+author: "Gruppenmitglieder: Anna Sinkel (as434), Enna Kelch (ek102), Ilenia Lucisano (il030), Theresa Zippelt (tz025)"
+date: "2023-04-30"
+output: 
+  word_document:
+    toc: yes
+    toc_depth: '3'
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: 3
+    number_sections: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+subtitle: Analyse des Einflusses von Katar auf internationaler Ebene
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+__Abstract und Keywords__
+
+Katar ist es als kleiner Staat über die Jahre gelungen, sich trotz Kontroversen sowohl ein gepflegtes Image aufzubauen als auch Einfluss und Macht auf internationaler Ebene zu erlangen. In der Netzwerkanalyse wurde das Gesamtnetzwerk Katar in Bezug auf verschiedene Bereiche der Einflussnahme erhoben. Zudem beschäftigt sich die Netzwerkanalyse mit dem Korruptionsfall Eva Kaili, in den Katar als Land involviert zu sein scheint und somit negativ in den Fokus der Öffentlichkeit getreten ist. Die involvierten Akteure und deren Rolle waren dabei Schwerpunkt der Korruptionsanalyse. Kernergebnisse der Analyse stellen die enge Verflechtung der Familie Al Thani in Politik und Wirtschaft und Antonio Panzeri als Schlüsselfigur im Korruptionsnetzwerk dar.
+
+Keywords: Katar, Al Thani, Korruption, Panzeri, Kaili, EU-Parlament, Qatar Investment Authority
+
+# Einleitung
+Das Emirat Katar hat sich in Bezug auf seine Innen- und Außenpolitik stark verändert und ist in den letzten zwei Jahrzehnten zu einem relevanten Akteur sowohl in der arabischen Welt als auch auf globaler Ebene geworden (Barakat, 2012). Den Aufstieg erlangte Katar durch zwei bestimmte Schlüsselstrategien: wirtschaftliche und politische Liberalisierung und das Schaffen einer unabhängigen Außenpolitik (ebd.). In diesen Strategien ist Katars Versuch verankert, sich als wohlhabender, neutraler und zukunftsorientierter Akteur neu zu gestalten und ausländische Investitionen und den Tourismus anzuziehen (ebd.). Aus diesem Grund beschäftigt sich die folgende Netzwerkanalyse mit der Macht und dem Einfluss Katars auf internationaler Ebene und mit dem aktuellen Korruptionsskandal im EU-Parlament, durch den Katar nach der Fußball-Weltmeisterschaft 2022 in den Fokus der Medien gerückt ist. Im Folgenden wird das Gesamtnetzwerk Katar und dessen Teilnetzwerke der Familie Al Thani und Katars Investitionen analysiert. Zudem wird das Korruptionsnetzwerk und das Ego-Netzwerk von Antonio Panzeri analysiert, der sich als einer der wichtigsten Akteure in dem Korruptionsfall herauskristallisierte. Demzufolge beschäftigt sich die Netzwerkanalyse mit der Frage: Inwiefern übt Katar Einfluss auf internationaler Ebene aus?
+
+# Vorarbeiten und vergleichbare Studien
+## Forschungsstand
+Jordan et al. (2018) beschäftigen sich in How small states acquire status: A social network analysis mit der Frage, wie Katar als kleiner Staat, durch eine politische Vermittlerrolle Status erlangt. Durch die Platzierung Katars in den Allianznetzwerken und diplomatischen Beziehungen führte die soziale Netzwerkanalyse zu folgendem Ergebnis: Katars Vermittlungsaktivitäten in sensiblen politischen und militärischen Konflikten machen deutlich, dass der Staat dadurch eine wichtige Rolle in der internationalen Politik spielen kann (Jordan et al., 2018). 
+
+## Arbeitshypothesen
+Um den Einfluss und die Macht Katars unter einem anderen Blickwinkel näher betrachten und um einen Bezug zum Korruptionsskandal herstellen zu können, ergaben sich für die Netzwerkanalyse folgende Hypothesen, die im Bericht analysiert werden: 
+
+1. Katars Gesamtnetzwerk wird eine hohe Dichte aufweisen.
+2. Katars Einfluss und Machtausübung lassen sich in verschiedene Sektoren einteilen, die eine Rolle für das Vorgehen des Landes spielen. 
+3. Die Herrscherfamilie Al Thani ist politisch und wirtschaftlich am meisten involviert und verflochten.
+4. Der ehemalige EU-Abgeordnete Antonio Panzeri spielt neben Eva Kaili eine wichtige Rolle im Korruptionsskandal. 
+
+# Datenerhebung: Zugang, Bereinigung und Codebuch
+
+## Datenzugang
+Die Daten wurden durch Online-Recherche erhoben. Dabei wurden verschiedene große Medienhäuser und deren Zeitschriftenartikel verwendet. Zudem wurde mit dem Zwei-Quellen-Prinzip gearbeitet und nur Fakten im Netzwerk aufgenommen, die bestätigt sind. 
+
+## Bereinigung des Datensatzes
+Der Datensatz ist unter [Github](https://github.com/il030/Katar-Einfluss-und-Macht) verfügbar. NA Werte wurden im Datensatz unter der Relation 8 Herkunft mit einer 1 codiert. 
+
+## Codebuch
+Es wurden zwei [Codebücher](https://github.com/il030/Katar-Einfluss-und-Macht/blob/main/Codebuch.pdf) erstellt, da es sich um zwei unabhängige Datenerhebungen handelt. Sie beschreiben die Variablen und Relationen des Korruptions- und Gesamtnetzwerks und sind auf Github hinterlegt.
+
+# Analyse und Interpretation
+
+## Das Gesamtnetzwerk
+Das Gesamtnetzwerk umfasst 150 Knoten und 325 Verbindungen (siehe igraph-Objekt). Es ist gerichtet und gewichtet. Zur einfacheren Darstellung wurde der erste Chunk zur Erstellung der Clusteranalyse ausgeblendet.
+
+```{r Gesamnetzwerk Katar erstellen, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+library(igraph)
+
+# Gesamtnetzwerk Katar: Edge- und Nodelist
+el1 <- read.csv("https://raw.githubusercontent.com/il030/Katar-Einfluss-und-Macht/main/Einfluss%20Katar%20EU%20und%20International%20-%20Edgelist.csv", header=T, as.is=T, sep = ",")
+nodes1 <- read.csv("https://raw.githubusercontent.com/il030/Katar-Einfluss-und-Macht/main/Einfluss%20Katar%20EU%20und%20International%20-%20Nodelist.csv", header=T, as.is=T, sep = ",")
+
+# Matrix erstellen
+edgematrix <-as.matrix(el1)
+
+# Zusammenführen von Edge- und Nodelist als igraph-Objekt s
+katar <- graph_from_data_frame(d=edgematrix, vertices=nodes1, directed=T)
+katar
+```
+```{r Clustern des Gesamtnetzwerks, message=FALSE, warning=FALSE, include=FALSE, paged.print=TRUE}
+
+# Visualisierung des Gesamtnetzwerks Katar mit Clustern
+## Anzahl der Komponenten
+count_components(katar)
+
+## Um genauer zu verstehen, welche Vertices zu welcher Gruppe gehören, lassen sie sich mit dem Befehl groups(g) in Grupppen unterteilten. 
+s_groups <- groups(components(katar))
+s_groups
+
+clusters(katar)
+
+## Clusterberechnung
+plot(katar, vertex.color="grey80", main="Komponente 1", vertex.label=NA)
+
+## Berechnung der Cluster innerhalb der Komponente
+## erstellt die Berechnung für die Modularität und deren Teilgruppen
+cl <- cluster_walktrap(katar)
+modularity(cl)
+membership(cl)
+```
+
+```{r Visualisierung des Gesamtnetzwerks Katar mit Clusters, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+plot(cl, katar,
+     layout=layout_with_kk,
+     edge.arrow.size=.2,
+     vertex.label=NA,
+     vertex.size=5,
+     main="Cluster-Walktrap Analyse von Katar")
+```
+
+```{r Analyse des Gesamtnetzwerks Katar, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Parameter zu Beschreibung des Netzwerks
+
+## Dichte des Netzwerks
+edge_density(katar)
+```
+
+Die Dichte des Netzwerks beträgt 1,47 Prozent. Bei näherer Betrachtung des Netzwerks lässt sich die geringe Dichte erklären. Durch verschiedene thematische Bereiche, die erhoben wurden, gibt es im Gesamtnetzwerk nicht viele direkte Verbindungen untereinander, aber durchaus Knoten, die im thematisch passenden Sektor eng miteinander verflochten sind. Um eine bessere Einschätzung gewinnen zu können, welche Teile des Netzwerks eine höhere Dichte aufweisen und somit auch enger verflochten miteinander sind, wurde eine Clusteranalyse durchgeführt. Dabei ist vor allem die Benennung der einzelnen Sektoren, über die Katar Macht und Einfluss auf internationaler Ebene ausübt, essenziell. Aus der Analyse ergab sich, dass thematisch verschiedene Cluster eine hohe Dichte aufweisen. Dabei handelt es sich um die Sektoren Militär, Unterstützung von Terrorgruppen, die Verflechtung der Herrscherfamilie Al Thani, Länderbeziehungen, Investitionen und Sportswashing. Einige Knoten bewegen sich in mehreren Clustern. Die Art und Weise, wie Cluster strukturiert sind, übt einen großen Einfluss auf soziale Prozesse aus (Fuhse, 2018). Zudem lassen sich die Cluster so deuten, dass Katar politisch, wirtschaftlich und sozial eine Strategie fährt, um sowohl Einfluss und Macht als auch ein gutes Image zu erlangen und um als wichtiges Land auf internationaler Ebene gesehen zu werden. 
+
+## Teilnetzwerk Herrscherfamilie Al Thani 
+Im Folgenden werden zwei Teilnetzwerke, die bisher in der Forschung zu Katar nicht beachtet wurden, aufgrund der Clusteranalyse analysiert. Besondere Beachtung gilt dabei der Herrscherfamilie Al Thani, da der Emir Tamim bin Hamad Al Thani maßgeblich für die Besetzung der politischen und wirtschaftlichen Posten in Katar verantwortlich ist.
+
+```{r Teilnetzwerk Al Thani, message=FALSE, warning=FALSE, include=FALSE, paged.print=TRUE}
+
+althani <- subgraph.edges(katar, E(katar)[relation == "6",relation == "7", relation == "4"])
+
+list.vertex.attributes(althani)
+vertex.attributes(althani)
+
+althani2 <- althani %>% 
+            delete.vertices("Donald Trump") %>%
+            delete.vertices("Erdogan") %>%
+            delete.vertices("USA") %>%
+            delete.vertices("Türkei") %>%
+            delete.vertices("Katar")
+```
+
+```{r Visualisierung Teilnetzwerk Al Thani, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Formen und Farben festlegen
+
+V(althani2)[V(althani2)$type == "a"]$color <- "lightblue"    # Organisation
+V(althani2)[V(althani2)$type == "b"]$color <- "red"  # Person
+V(althani2)[V(althani2)$type == "f"]$color <- "yellow"  # Politik
+
+V(althani2)[V(althani2)$type == "a"]$shape <- "circle" # Organisation / Unternehmen
+V(althani2)[V(althani2)$type == "b"]$shape <- "square" # Person
+V(althani2)[V(althani2)$type == "c"]$shape <- "star" # Land
+V(althani2)[V(althani2)$type == "d"]$shape <- "triangle" # Event
+V(althani2)[V(althani2)$type == "e"]$shape <- "cross" # Militär
+V(althani2)[V(althani2)$type == "f"]$shape <- "rectangle" # Politik
+
+# Visualisierung
+plot(althani2,
+     asp=0,
+     rescale=TRUE,
+     layout=layout_with_kk,
+     vertex.size=5,
+     edge.arrow.size=.2,
+     vertex.label.color="black",
+     vertex.label.cex=0.5,
+     main="Erbmonarchie: Al-Thani Familie",
+     sub="Personen = rot, Organisationen = blau, Politik = gelb")
+```
+
+Katar wird politisch als absolute Monarchie geführt, was bedeutet, dass der Monarch die höchste Autorität im Staat innehat. Der derzeitige Emir von Katar ist Scheich Tamim bin Hamad Al Thani, der seit 2013 regiert, als sein Vater die Macht freiwillig abgab (Brannagan & Reiche, 2022). Das Teilnetzwerk zeigt, dass die Familie nicht nur politischen Einfluss durch die Übernahme von Ministerposten, sondern auch wirtschaftlich einen großen Einfluss in Katar ausübt.
+
+```{r Al-Thani-Teilnetzwerk Berechnung der Dichte, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Berechnung der Dichte
+edge_density(althani2)
+```
+Die Dichte dieses Teilnetzwerks beträgt 12,93 Prozent. Durch die Zuweisung einzelner Akteure an die Ministerien und Vorstände der  landeseigenen Unternehmen, fällt die Dichte im Gesamten niedriger aus, als zunächst angenommen. Zudem wurden nur Familienangehörige der Herrscherfamilie mit einbezogen, die entweder wirtschaftlich oder politisch die wichtigsten Posten in Katar ausüben.
+
+```{r Al-Thani-Teilnetzwerk Berechnung des Betweenness-Wert, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Berechnung Betweenness-Wert
+betweenness(althani2)
+```
+Der Emir Tamim bin Hamad Al Thani weist mit einem Wert von 149.32 die höchste Betweenness-Zentralität der Al Thanis auf. Als er die Staatsmacht übernahm, folgte er seinem Vater und ersetzte zügig wichtige Mitglieder der früheren politischen Elite durch jüngere Familienmitglieder (Brannagan & Reiche, 2022). Der Emir verteilt die Posten sowohl im politischen als auch im wirtschaftlichen Sektor. Da er der Mittelpunkt und der Vermittler für die Vergabe der Posten in der Familie Al Thani ist, lässt sich so die hohe Betwenness-Zentralität sinnvoll interpretieren. 
+
+Zudem wird bei näherer Betrachtung der Herrscherfamilie die Netzwerktheorie der Homophilie bedeutsam. Im Sinne des Homophilie-Effekts entstehen häufig Freundschaften zwischen Personen, die eine ähnliche kulturelle Prägung aufweisen (Lazarsfeld & Merton, 1954). Im Fall der Herrscherfamilie spricht man nicht deutlich von Freundschaft, zumal die Familie weit entfernt von einer geeinten und harmonischen Gruppe ist (Brannagan & Reiche, 2022). Um weiterhin Macht und Einfluss in Katar und international ausüben zu können, müssen sie als Dynastie ihre hohe Rangordnung aufrechterhalten. Das passiert zum einen durch die Vergabe von wichtigen Posten, die innerhalb der Familie verbleiben und durch das nach außen Tragen ihrer gemeinsamen Weltanschauung. Die Inbreeding Homophily beschreibt das Ausmaß der Homophilie, das über dem erwarteten Wert liegt und in der Regel auf persönliche Vorlieben und Entscheidungen zurückzuführen ist (Currarini et al., 2016). Beispielsweise liegt die Entscheidung beim Emir, Posten in Ministerien und Vorständen mit seinen Familienangehörigen zu besetzen. Es kommt also zur Verteilung von politischen und wirtschaftlichen Posten aufgrund von Verwandtschaft, damit der Einfluss und die Machtausübung bei den Al Thanis bleibt. Zudem hat Homophilie vielschichtige Effekte auf die Verbreitung von Informationen und Verhaltensweisen. Homophilie kann die Verbreitung von Innovationen und Verhaltensweisen sowie die Bildung von sozialen Normen erleichtern (Centola et al., 2005). Als Einheit zeigt  die Familie Al Thani nach außen, dass sie in ihrer Familie die Macht in Katar sichern und halten können. Sie pflegen ihr Image nicht nur im eigenen Land, sondern auch auf internationaler Ebene. Somit wird Katar mit dem Namen Al Thani assoziiert und die Großfamilie behält ihren Status als Herrscherfamilie.
+
+## Teilnetzwerk Investitionen (Qatar Investment Authority)
+
+```{r Erstellung Teilnetzwerk Qatar Investment Authority, message=FALSE, warning=FALSE, include=FALSE, paged.print=TRUE}
+
+# Teilnetzwerk Investitionen 
+investitionen <- subgraph.edges(katar, E(katar)[relation== "1"])
+
+investitionen2 <- investitionen %>% 
+            delete.vertices("China") %>%
+            delete.vertices("China Railway Construction Corp")
+
+vertex.attributes(investitionen2)
+
+V(investitionen2)[V(investitionen2)$type == "a"]$color <- "lightblue"    # Organisationen
+V(investitionen2)[V(investitionen2)$type == "b"]$color <- "red"  # Personen
+V(investitionen2)[V(investitionen2)$type == "c"]$color <- "yellow"  # Land
+V(investitionen2)[V(investitionen2)$type == "e"]$color <- "green"  # Militär
+```
+
+```{r Visualisierung Teilnetzwerk Qatar Investment Authority, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Visualisierung
+plot(investitionen2,
+     asp=0,
+     rescale=TRUE,
+     layout=layout_with_kk,
+     vertex.size=5,
+     edge.arrow.size=.2,
+     vertex.label.cex=0.6,
+     edge.width=E(investitionen2)$weight,
+     edge.color=E(investitionen2)$weight,
+     main="Investitionen von Katar auf internationaler Ebene",
+     sub="Person = rot, Organisationen = blau, Länder= gelb, Militär = grün")
+```
+
+Katar verfügt über die drittgrößten Erdgasreserven weltweit und ist darüber hinaus führender Exporteur von verflüssigtem Erdgas. Des Weiteren gilt das Emirat als wichtiger Finanzinvestor, Spender und Arbeitskräfte-Importeur (Mrabet et al., 2017). 
+Zudem werden Fortschritte in der Wirtschaft durch die Entwicklungen in den Bereichen der staatlichen Investitionen, Gesundheitsfürsorge und Bildungseinrichtungen unterstützt (ebd.). Historisch betrachtet war die Regierung in Katar immer eine Familienangelegenheit und es gab keine klare Trennung zwischen dem Einkommen des Staates und dem Einkommen des Herrschers (Rathmell & Schulze, 2000). Durch die Gründung der Qatar Investment Authority im Jahr 2005 sollten die Öl- und Erdgasüberschüsse der Regierung verwaltet werden (Bahgat, 2008). Um die Abhängigkeit von den Energiepreisen zu minimieren, investiert die Qatar Investment Authority hauptsächlich in internationale Märkte (USA, Europa, Asien) und in Katar außerhalb des Energiesektors (ebd.). Zudem sollen durch die Investitionen der Qatar Investment Authority nicht nur eine monetäre Rendite erzielt, sondern auch Interdependenzen entwickelt werden, die die staatliche Sicherheit erhöhen können (McSparren et. al., 2017). Besonders interessant ist in der Netzwerkanalyse die Betrachtung des Teilnetzwerkes der Qatar Investment Authority unter dem Phänomen der transitiven Beziehungen. Das Emirat investiert in verschiedene wirtschaftliche Bereiche und Länder, um somit zunächst schwache Beziehungen zu erzeugen, die auf internationaler Ebene Interdependenzen und eigene Sicherheit herstellen. Durch wiederholte Investitionen, zum Beispiel in Frankreich, wo Anteile bei dem Unternehmen Lagardère gehalten werden, können die schwachen Beziehungen zu starken werden und dadurch eine Transitivität erzeugen. Zudem steht positive Transitivität für die Tendenz, dass zwei Knoten, die beide mit dem dritten Knoten befreundet sind, eine Beziehung aufbauen (Fuhse, 2018). Katars Strategie in andere Länder zu investieren, könnte durch die Kooperation der Länder untereinander dazu führen, dass sie offener für Katars Investitions- und Ankaufversuche sind. Dadurch könnte Katar beispielsweise einfacher an eine Genehmigung der Bundesregierung kommen, um Anteile eines Unternehmens wie der Deutschen Bank zu kaufen, da Katar bereits vermehrt in Frankreich Anteile erworben hat und Frankreich und Deutschland sowohl politisch als auch wirtschaftlich verbündet sind. Gleiches könnte für die USA und alle anderen Länder auf internationaler Ebene gelten und für alle Länder auf internationaler Ebene, in die Katar investiert und sich somit seinen Einfluss auf der Welt sichern möchte.
+
+## Gesamtnetzwerk Korruption
+Der aktuelle Korruptionsskandal im EU-Parlament steht im Zusammenhang mit der Einflussnahme und der Machtausübung Katars, weshalb eine vertiefende Analyse in Bezug auf die Korruptionsvorwürfe der EU-Mitglieder essenziell ist. Dies soll das Netzwerk „Korruption im EU-Parlament” darstellen. Das Netzwerk zeigt insgesamt 30 Knoten, die hinsichtlich des Korruptionsskandals eine wesentliche Rolle spielen. Zwischen den Knoten verlaufen insgesamt 76 gerichtete Beziehungen. Da sowohl einzelne Personen als auch ganze Organisationen als Knoten vertreten sind, handelt es sich hier um ein Two-Mode-Netzwerk. 
+
+```{r Korruption-Gesamnetzwerk erstellen, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Korruption: Edge- und Nodelist
+## Einlesen der Edge- und Nodelist
+el2 <- read.csv("https://raw.githubusercontent.com/il030/Katar-Einfluss-und-Macht/main/Korruption%20Kaili%20and%20Friends%20-%20Edgelist.csv", header=T, as.is=T, sep = ",")
+nodes2 <- read.csv("https://raw.githubusercontent.com/il030/Katar-Einfluss-und-Macht/main/Korruption%20Kaili%20and%20Friends%20-%20Nodelist.csv", header=T, as.is=T, sep = ",")
+
+## Matrix erstellen
+edgematrix <-as.matrix(el2)
+
+## Zusammenführen von Edge- und Nodelist als igraph-Objekt s
+korruption <- graph_from_data_frame(d=edgematrix, vertices=nodes2, directed=T)
+```
+
+```{r Visualisierung des Korruptions-Netzwerks, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Visualisierung Korruption
+
+## Formen und Farben für two-mode-Netzwerk festlegen
+V(korruption)[V(korruption)$type == 1]$shape <- "circle" # Person
+V(korruption)[V(korruption)$type == 2]$shape <- "square" # Organisation
+V(korruption)[V(korruption)$type == 1]$color <- "blue" # Person
+V(korruption)[V(korruption)$type == 2]$color <- "red" # Organisation
+
+deg_korr <- degree(korruption)
+
+plot(korruption,
+     asp=0,
+     layout=layout_with_kk,
+     rescale=TRUE,
+     vertex.size=deg_korr,
+     vertex.label.color="black",
+     edge.arrow.size=.2,
+     vertex.label.cex=0.7,
+     main="Korruption im EU-Parlament",
+     sub="Verdächtigte Akteure; Personen = blau & Organisationen = rot")
+
+# Dichte des Korrptions-Netzwerks
+edge_density(korruption)
+```
+Das gesamte Korruptions-Netzwerk weist, anders als angenommen, eine Dichte von  8,6 Prozent auf. Wie bisherige Untersuchungen des Falls zeigen, haben sich die Akteure untereinander geholfen, die Korruption zu vertuschen. Nicht alle von ihnen, wie beispielsweise der Vater von Eva Kaili, stehen in direkter Kommunikation mit Katar oder Marokko. Beide Länder haben mit ihrem Einfluss und ihrer Macht einzelne Akteure bewusst beeinflusst und sich durch illegale Mittel einen manipulierten Vorteil für politische Entscheidungen gesichert. Diese einzelnen Korruptionshandlungen erklären dementsprechend die geringe Dichte. Unterteilt man die Dichte in kleinere Teilaspekte, lassen sich hier ebenfalls interessante Schlüsse ziehen. 
+
+```{r Dichte in Teilnetzwerken vergleichen, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Korupptions-Netzwerk in Mitglied und Geldfluss aufteilen
+list.edge.attributes(korruption)
+edge.attributes(korruption)$relation
+
+## Teilnetzwerke erstellen
+ko_mitglied <- subgraph.edges(korruption, E(korruption)[relation==" 1"]) 
+ko_geldfluss <- subgraph.edges(korruption, E(korruption)[relation==" 6"])
+
+## Visualisierung der Teilnetzwerke
+par(mfrow=c(1,2), mar=c(0,0,2,2))
+plot(ko_mitglied, vertex.color="red", vertex.label.cex=0.5, edge.arrow.size=.2, main="Mitglied")
+plot(ko_geldfluss, vertex.color="green", vertex.label.cex=0.5, edge.arrow.size=.2, main="Geldfluss")
+```
+
+Der erste Teilaspekt stellt die Relation „Mitglied” dar. Hier spielt vor allem das EU-Parlament und die Fraktion Socialist & Democrats (S&D) eine entscheidende Rolle. Insgesamt sechs EU-Abgeordnete, die gleichzeitig als Fraktionsmitglieder der S&D angehören, sind in den Skandal verwickelt. Die Organisation “Fight Impunity” ist ebenfalls ein wichtiger Bestandteil des Netzwerks und steht unter der Leitung des ehemaligen EU-Abgeordneten Antonio Panzeri. Die Non-Profit-Organisation behauptet von sich selbst, sich vor allem für Menschenrechte einzusetzen und diese zu schützen. Zudem plädiert die Organisation für Gerechtigkeit und Rechtsstaatlichkeit (AITJ fight impunity, o. J.).  Diese Werte stehen im Widerspruch zu den Taten der Organisation, denn über sie wurden ebenfalls Geldzahlungen vorgenommen, um politischen Einfluss vorzunehmen und Katar zu unterstützen (Mathiesen & Barigazzi, 2022).  
+
+Diese Zusammenarbeit ist von besonderer Bedeutung, denn die Abgeordneten aus den verschiedenen Ländern und Parteien müssen gemeinsam Entscheidungen treffen, die einen Großteil der Bevölkerung beeinflussen. Die Mitglieder spielen nicht nur in der EU eine essenzielle Rolle, sondern auch international. Diese Beziehungen müssen hergestellt und gepflegt werden.
+Sie sind insbesondere für die politische Stabilität wichtig, denn im Falle einer Krise ist die internationale Kommunikation unumgänglich und die politische Koordinierung und Zusammenarbeit muss zur Konfliktlösung zeitnah erfolgen. Passiert dies nicht, und die Länder handeln zu ihrem Eigennutz mit protektionistischen Maßnahmen, können weltweite Krisen entstehen, die sich in ihrer Problemlösung letztendlich schwieriger gestalten (Schmidt et al., 2013). 
+
+Ein weiterer und wichtiger Teilaspekt ist die Beziehungsart „Geldfluss”. Fokussiert man sich im Korruptionsnetzwerk ausschließlich auf den Transfer von Geld, wird die Schlüsselfigur des Skandals deutlich. Sowohl Antonio Panzeri, als auch seine NGO Fight Impunity, stehen jeweils im Mittelpunkt der Korruptionszahlungen. Panzeri ließ sich zum einen Flüge des marokkanischen Geheimdienstes bezahlen, zum anderen soll er dem EU-Abgeordneten Marc Tarabella über hunderttausend Euro Bargeld überreicht haben, um die Arbeit der EU zu Katar zu beeinflussen.
+ 
+Neben Panzeri gehört Eva Kaili zu den Hauptakteuren des Netzwerks. Beide waren Mitglieder des EU-Parlaments, weshalb ihre Taten im Widerspruch zum internationalen Rechtsrahmen bezüglich des korrupten Handelns stehen. Das Übereinkommen der Vereinten Nationen gegen Korruption (UNCAC) ist das einzige rechtsverbindliche internationale Instrument, das Richtlinien und Maßnahmen zur Bekämpfung und Prävention von Korruption festlegt (Larson, 2011). Sowohl Kaili als auch Panzeri haben mit ihren Taten deutlich gegen die Vorschriften des UNCAC verstoßen und rechtswidrig gehandelt. Sie haben sich finanzielle Vorteile verschafft, was zur Folge hatte, dass sie ihre formalen Pflichten als EU-Abgeordnete verletzt und Vereinbarungen im Interesse von Katar und Marokko getroffen haben. Dabei handelt es sich um einen klaren Fall von Korruption (Nye, 1967). Beide hatten das Privileg der parlamentarischen Immunität. Das bedeutet, sie können ihre politischen Entscheidungen und die Aufgaben ihres Amtes frei und unabhängig ausführen. Solange diese Tätigkeiten im Zusammenhang mit ihrer politischen Ausübung stehen, sind sie vor Strafverfolgung und Festnahmen geschützt. Diese Immunität soll kein persönliches Privileg für EU-Abgeordnete sein, sondern die Unabhängigkeit des EU-Parlaments bewahren (Raffaelli & Sy, 2014).
+
+Durch rechtswidrige Handlung und den Verstoß gegen die Vorschriften des UNCAC, wurden Kaili und Panzeri ihre parlamentarische Immunität entzogen, sodass sie strafrechtlich zur Verantwortung gezogen werden konnten. Der Missbrauch des politischen Amtes und der damit verbundenen Machtausübung hat nicht nur negative Auswirkungen auf die rechtswidrig handelnden Akteure, sondern mindert die Legitimität und Glaubwürdigkeit des gesamten EU-Parlaments als politische Organisation. Indem es den Entscheidungsfindungsprozess verzerrt, greift korruptes Handeln zusätzlich das demokratische System an (Szarek-Mason, 2010).
+
+```{r Maximale Pfaddistanz des Korruptions-Netzwerks, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Maximale Distanz zwischen zwei Knoten im Korruption-Netzwerk
+
+## Welche Knoten sind am weitesten voneinander entfernt, also haben die längsten Schritte??
+farthest_vertices(korruption) 
+```
+Die maximale Pfaddistanz im Korruptions-Netzwerk liegt mit sechs Schritten zwischen Alexandros Kaili und Monica Rossana Bellini. Dies lässt sich über die entfernten Positionen und Beziehungen zu unterschiedlichen Akteuren der beiden erklären. Bellini war die Steuerberaterin und Wirtschaftsprüferin von Panzeri, weshalb sie ebenfalls verdächtigt wird, an dem Korruptionsskandal beteiligt und für Panzeri eine Unterstützung gewesen zu sein. Alexandros Kaili ist der Vater von Eva Kaili und kein Mitglied des EU-Parlaments oder für einen der Abgeordneten tätig. Allerdings hat er seiner Tochter bei den illegalen Machenschaften unterstützt, denn die Konten, auf die Katar das Geld überwiesen hat, liefen offiziell auf ihn und seine Frau. Somit hat Alexandros Kaili mehrere Millionen Euro für seine Tochter gelagert und sie indirekt bei der Verwaltung und Aufbewahrung der Schmiergelder unterstützt. Da er und Bellini allerdings nur Mittäter sind, sie keine weiteren entscheidenden Beziehungen zu anderen wichtigen Akteuren haben und ihre Unterstützung ebenfalls bei separaten Akteuren zu erkennen ist, lässt sich hieraus die maximale Pfaddistanz zwischen den zwei Knoten ableiten.
+
+## Ego-Netzwerk Antonio Panzeri
+
+```{r Analyse des Ego-Netzwerks von Panzeri, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Einfache Berechnung des Degree als Gesamtwert
+ds_korr <- degree(korruption)
+ds_korr
+
+# Wir können auch gleich fragen, welcher Knoten den höchsten Degree-Wert aufweist:
+which.max(ds_korr)
+
+# ego_size() zeigt uns den Wert mit den höchsten Verbindungen (degrees)
+V(korruption)$egos <- ego_size(korruption)
+vertex.attributes(korruption)$egos
+which.max(vertex.attributes(korruption)$egos)
+```
+
+```{r Visualisierung des Ego-Netzwerks von Panzeri, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# erzeugt ein Egonetzwerk
+ego_g <- make_ego_graph(korruption, order = 1, nodes = V(korruption)$name == "Antonio Panzeri", mode ="all")
+ego_net <- ego_g[[1]]
+ego_net
+
+
+V(ego_net)[V(ego_net)$name == "Antonio Panzeri"]$frame.color <- "red"
+
+plot(ego_net,
+     vertex.size=degree(ego_net), # falls die Knotengröße nach Degree-Wert angezeigt werden soll
+     layout=layout_with_kk,
+     main="Ego-Netzwerk von Antonio Panzeri",
+     vertex.color=NA,
+     vertex.label.color="black",
+     vertex.frame.size="5",
+     vertex.label.size="8",
+     edge.color="grey40",
+     edge.arrow.size=.3,
+     sub="Der Drahtzieher des Korruptionsskandals")
+```
+
+Von dem mutmaßlichen Drahtzieher des Korruptionsskandals, Antonio Panzeri, wurde ein Ego-Netzwerk erstellt. Damit werden seine korrupten Verbindungen noch einmal von den anderen Akteuren deutlich gemacht. Dieses Netzwerk stellt noch einmal detaillierter heraus, wie der ehemalige EU-Abgeordnete in den Korruptionsskandal verstrickt ist und mit welchen Akteuren er auf direktem Wege kooperiert hat.
+
+Mit einem Degree-Wert von 14 hat Antonio Panzeri die meisten direkten Verbindungen des Netzwerks und steht somit an zentraler Stelle. Da Panzeri ein wichtiges Mitglied des EU-Parlaments war und in dem Korruptionsskandal als mutmaßlicher Drahtzieher gilt, lässt sich so seine Zentralität im Netzwerk erklären. Er hat mit vielen Akteuren zusammengearbeitet und Informationen verwaltet, sodass seine Position als Schlüsselfigur im Netzwerk von außerordentlicher Bedeutung ist (Spiegel, 2023). 
+
+```{r Berechnung Betweenness-Wert des Korruptions-Netzwerks, message=FALSE, warning=FALSE, paged.print=TRUE}
+
+# Einfache Berechnung der Betweenness als Gesamtwert
+betweenness(korruption)
+which.max(betweenness(korruption))
+```
+
+Dadurch lässt sich sein hoher Betweenness-Wert von 142,67  erklären. Über ihn werden viele Informationen und Ressourcen weitergegeben, sodass er privilegierten Zugang zu diesen hat. Betrachtet man das gesamte Korruptions-Netzwerk, hat Panzeri jedoch nicht den höchsten Betweenness-Wert. Abderrahim Atmoun, ein marokkanischer Botschafter in Polen, hat mit 197,33 den höchsten Wert, weshalb ihm die wichtige Rolle des Brokers zugesprochen werden kann. Er ist Vermittler zwischen dem marokkanischen Geheimdienst DGED und den korrupten Abgeordneten im EU-Parlament. Atmoun steht im engen Kontakt mit Panzeri und Kaili, indem er ihnen sowohl Geld als auch Geschenke für Familienangehörige geboten hat. Ohne den Knoten von Atmoun wäre eine Brücke zwischen dem EU-Parlament und dem DGED trotzdem noch gegeben, allerdings über Umwege, was den Kontakt deutlich erschweren würde (Hanneman & Riddle, 2005). 
+
+# Fazit
+Am Anfang der Recherche wurde die Forschungsfrage gestellt, inwiefern Katar Einfluss auf internationaler Ebene ausübt. Die Analyse hat gezeigt, dass dieser Einfluss durch verschiedene Strategien erfolgt. Dazu gehören die Unterstützung des Militärs anderer Länder, Sportswashing, strategische Investitionen, die Macht der Herrscherfamilie und Korruption. Zudem haben sich die zu Beginn aufgestellten Arbeitshypothesen zum Teil bestätigt. Die erste Hypothese wurde aufgrund einer niedrigeren als erwarteten Dichte widerlegt, die auf die ungleiche Verteilung von Knoten innerhalb der verschiedenen Sektoren zurückzuführen ist. Die zweite Hypothese wird durch die positive Auswirkung der Machtausübung in den Sektoren auf den Einfluss des Landes bestätigt. Verifziert wird ebenfalls die dritte Hypothese, da die Familie Al Thani die meisten Ämter des Landes besetzt und dementsprechend an der Spitze der politischen und wirtschaftlichen Macht in Katar steht. Schließlich konnte das Korruptions-Netzwerk die wichtigste Rolle von Panzeri als Drahtzieher des Korruptionsskandals im EU-Parlament bestätigen und somit die letzte Hypothese verifizieren.
+
+# Limitationen 
+Die Herausforderungen in der Netzwerkanalyse hatten bereits bei der Konkretisierung des Themas begonnen, da es sehr breit gefächert ist. Dadurch war die Eingrenzung in der Datenerhebung beim Gesamtnetzwerk Katar problematisch und in der Recherche konnten thematisch nicht alle Inhalte vollständig abgedeckt werden. Zudem war in einigen Fällen kein konkreter Akteur angegeben, sondern es ist nur erwiesen, dass Katar involviert ist. Beim Gesamtnetzwerk Korruption stellte die Aktualität des Themas eine weitere Limitation dar, da nicht alle öffentlich zugänglichen Informationen bestätigt waren und eine fortwährende Aktualisierung des Netzwerks notwendig war. Die Schwierigkeit bestand darin, eine Eingrenzung der relevanten Akteure im Gesamtnetzwerk vorzunehmen und festzustellen, welche Personen am politischen Geschehen in Katar beteiligt waren, aber für die Beantwortung der Forschungsfrage nicht von Bedeutung waren. Bei der Auswertung der Recherche bestand auch hier die Schwierigkeit, Handlungen konkreten Akteuren zuzuordnen.
+
+# Ausblick
+Katar hat in den letzten Jahren nicht nur an wirtschaftlicher, sondern auch an politischer Macht gewonnen. Das liegt unter anderem daran, dass es auf internationaler Ebene gut vernetzt ist. Um Katars Macht und Einfluss die nächsten Jahre weiter auszubauen und die bestehenden Probleme bestmöglich zu lösen, hat Katar die „National Vision 2030” ausgearbeitet. Dort wird ein detaillierter Plan ausgearbeitet, welche Ziele Katar bis wann anstrebt. Demnach wäre es interessant, in weiteren Studien auf die Entwicklung Katars vor allem in Bezug auf die National Vision 2030 einzugehen und zu analysieren, ob Katar seine Ziele erreicht hat und wenn ja, mit welchen Methoden dies geschehen ist (Sillitoe, 2014).
+
+Da der Korruptionsskandal des EU-Parlaments immer noch sehr aktuell ist, werden in den nächsten Monaten sicherlich weitere Informationen an die Öffentlichkeit gelangen. Vor allem könnten sich weitere Studien im Allgemeinen mehr auf Korruption und Machtmissbrauch fokussieren und diese auf regionaler, nationaler und internationaler Ebene analysieren. Interessant wäre auch, herauszufinden, wie stark dies der Vertrauenswürdigkeit der Politik oder sogar der gesamten Demokratie schadet.
+
+# Anhang
+
+## Literaurverzeichnis
+AITJ fight impunity. (o. J.). Fight Impunity. Abgerufen 23. April 2023, von https://www.fightimpunity.com/
+
+Bahgat, G. (2008). Sovereign wealth funds: dangers and opportunities. International affairs, 84(6), 1189–1204. https://doi.org/10.1111/j.1468-2346.2008.00764.x
+
+Barakat, S. (2012). The Qatari Spring: Qatar’s emerging role in peacemaking. (o. J.). London School of Economics and Political Science.
+
+Baxter, P., Jordan, J., & Rubin, L. (2018). How small states acquire status: A social network analysis. International Area Studies Review, 21(3), 191–213. https://doi.org/10.1177/2233865918776844
+
+Brannagan, P. M., & Reiche, D. (2022). Qatar and the 2022 FIFA World Cup: Politics, controversy, change. Springer Nature.
+
+Fuhse, J. A. (2018). Soziale Netzwerke: Konzepte und Forschungsmethoden. UTB.
+
+Hanneman, R. A., & Riddle, M. (2005). Introduction to social network methods. Ucr.edu. http://faculty.ucr.edu/~hanneman/nettext/C7_Connection.html#nets 
+
+Larson, E. N. (2011). The united nations convention against corruption. In Korruptionsbekämpfung als globale Herausforderung (S. 11–18). VS Verlag für Sozialwissenschaften.
+
+Mathiesen, K., & Barigazzi, J. (2022, Dezember 20). Inside Fight Impunity, the Brussels NGO at the heart of the Qatar corruption scandal. POLITICO. https://www.politico.eu/article/inside-fight-impunity-brussels-ngo-qatar-corruption-scandal-european-parliament-panzeri-kaili-giorgi/
+
+Moore, P. W. (2004). Doing Business in The Middle East: Politics and Economic Crisis in Jordan and Kuwait. Cambridge University Press.
+
+Mrabet, Z., AlSamara, M., & Hezam Jarallah, S. (2017). The impact of economic development on environmental degradation in Qatar. Environmental and Ecological Statistics, 24(1), 7–38. https://doi.org/10.1007/s10651-016-0359-6
+
+Nye, J. S. (1967). Corruption and political development: A cost-benefit analysis. The American Political Science Review, 61(2), 417–427. https://doi.org/10.2307/1953254
+
+Raffaelli, R., & Sy, S. S. (2014). The immunity of Members of the European Parliament. Europa.eu. https://www.europarl.europa.eu/RegData/etudes/IDAN/2014/509981/IPOL_IDA(2014)509981_EN.pdf
+
+Rathmell, A., & Schulze, K. (2000). Political Reform in the Gulf: The Case of Qatar”. Middle Eastern Studies, 36(4).
+
+Schmidt, M. G., Wolf, F., & Wurster, S. (Hrsg.). (2013). Studienbuch Politikwissenschaft (2013. Aufl.). Springer VS.
+
+Spiegel, D. E. R. (2023, April 6). Antonio Panzeri: Mutmaßlicher Drahtzieher der EU-Korruptionsaffäre wechselt in Hausarrest. DER SPIEGEL. https://www.spiegel.de/politik/deutschland/antonio-panzeri-mutmasslicher-drahtzieher-der-eu-korruptionsaffaere-wechselt-in-hausarrest-a-b6eee24d-53b5-4587-8f8b-491a6fee8e93
+
+Szarek-Mason, P. (2010). Cambridge studies in European law and policy: The European union’s fight against corruption: The evolving policy towards member states and candidate countries. Cambridge University Press.
+
+## Gesamtnetzwerk Katar ohne Cluster
+
+```{r Gesamtnetzwerk Katar ohne Clusteranalyse}
+
+# Gesamtnetzwerk Katar ohne Cluster
+## Farben für Netzwerk festlegen
+V(katar)[V(katar)$type == "a"]$color <- "red" # Organisationen/Unternehmen
+V(katar)[V(katar)$type == "b"]$color <- "blue" # Personen
+V(katar)[V(katar)$type == "c"]$color <- "yellow" # Land
+V(katar)[V(katar)$type == "d"]$color <- "orange" # Event
+V(katar)[V(katar)$type == "e"]$color <- "darkgreen" # Militär
+
+plot(katar,
+     asp=0,
+     layout=layout_with_kk,
+     rescale=TRUE,
+     vertex.size=5,
+     edge.arrow.size=.2,
+     vertex.label.cex=0.5,
+     main="Einfluss von Katar",
+     sub="Katars internationale Beziehungen und Machtausübung ")
+```
+
+## Codebuch
+Hier der Link zum [Codebuch](https://github.com/il030/Katar-Einfluss-und-Macht/blob/main/Codebuch.pdf)
+
+```{r Übersicht Netzwerkattribute}
+
+# Gesamtnetzwerk Katar
+list.vertex.attributes(katar)
+vertex.attributes(katar)
+list.edge.attributes(katar)
+edge.attributes(katar)
+
+# Gesamtnetzwerk Korruption
+list.vertex.attributes(korruption)
+vertex.attributes(korruption)
+list.edge.attributes(korruption)
+edge.attributes(korruption)
+```
+
+## Vertex- und Edge-Attribute der beiden Netzwerke
+Das Netzwerk hat nach dem [Codebuch](https://github.com/hdm-crpr/226305/blob/master/data/crpr2/codebuch.md) folgende Attribute:
+
+### Vertex-Attribute des Gesamtnetzwerks Katar
+* name: Name des Knotens, Initialien (Organisationen in Großbuchstaben)
+* type: a Organisationen/Unternehmen, b Person, c Land, d Event, e Militär, f Politik
+
+Die Vertex-Attribute treffen auf alle Knoten zu.
+
+### Vertex-Attribute des Korruptions-Netzwerks
+* name: Name des Knotens, Inizialien (Organisationen in Großbuchstaben)
+* sex: Geschlecht 1 weiblich, 2 männlich, 3 divers
+* country: Herkunftsland auf Deutsch
+* type: 1 Person, 2 Organisation
+* party: Politische Partei
+
+Die Vertex-Attribute treffen auf alle Knoten zu.
+
+### Edge-Attribute des Gesamtnetzwerks Katar
+* relation: 1 Besitz; weight: 1 Anteile, 2 Eigentum
+* relation: 2 Zusammenarbeit; weight: 1 Militär, 2 Partnerschaft, 3 Kooperation
+* relation: 3 Unterstützung; weight: 1 finanziell, 2 nicht finanziell
+* relation: 4 Politik ; weight: 1 Minister
+* relation: 5 Geschäfte; weight: 1 Gasgeschäft, 2 Auftrag
+* relation: 6 Beziehung; weight: 1 Familie, 2 Freunde, 3 Politik
+* relation: 7 Position; weight: 1 CEO, 2 Vorstand, 3 Vorsitzender, 4 Ministerium
+* relation: 8 Herkunft
+* relation: 9 Sport; weight: 1 veranstaltet, 2 Gastgeber, 3 Austragung
+
+### Edge-Attribute des Korruptions-Netzwerks
+* relation: 1 Mitglied, 2 Kollegen/Mitarbeiter, 3 Familie, 4 Interessenvertretung, 5 Liebesbeziehung, 6 Geldfluss, 7 Freunde, 8 Vorgesetzter, 9 Gründer, 10 Mittäterschaft, 11 Kontaktperson, 12 Zusammenarbeit, 13 Beeinflussung
+
+## Datenmaterial und Skript
+Hier unser Link zum [Datensatz](https://github.com/il030/Katar-Einfluss-und-Macht). 
+
+Die Internetquellen, die zur Recherche aufgerufen und verwendet wurden, stehen in einem [Dokument](https://github.com/il030/Katar-Einfluss-und-Macht/blob/f3f5697ef600d9cf0347140ba4f6cc0f74664502/Quellen%20fu%CC%88r%20die%20Netzwerkerstellung.pdf) auf GitHub.
+
+## Team, Arbeitsaufwand und Lessons Learned
+
+### Teammitglieder 
+* Anna Sinkel (as434)
+* Enna Kelch (ek102)
+* Ilenia Lucisano (il030)
+* Theresa Zippelt (tz025)
+
+### Arbeitsaufwand und Rollen im Team
+* Anna Sinkel: Recherche Korruptions-Netzwerk, Literaturrecherche und Forschungsbericht, ca. 71,5 Stunden
+* Enna Kelch: Recherche Gesamtnetzwerk Katar und edit. Beitrag, ca. 62,5 Stunden
+* Ilenia Lucisano: Recherche Gesamtnetzwerk Katar, Forschungsbericht, Literaturrecherche und Erstellung RMD-Datei, ca. 80 Stunden
+* Theresa Zippelt: Recherche Korruptions-Netzwerk, Visualisierung, Forschungsbericht, Erstellung RMD-Datei und edit.Beitrag, ca. 84,5 Stunden
+
+### Lessons learned
+Die größte Herausforderung bei diesem Thema lag definitiv in der Konkretisierung. Einen thematischen Schwerpunkt zu finden gestaltete sich als schwierig, da es so viele Informationen gab, die alle bedeutsam gewesen wären. Aufgrund der Komplexität des Themas und der limitierten Zeit, konnten manche Beziehung nicht berücksichtigt werden. Der größte Lernerfolg war, eine Geschichte in einer Netzwerkerhebung zu finden und sowohl in einem journalistischen, als auch in einem wissenschaftlichen Kontext zu setzen. Zu den Learnings gehört zudem, dass eine gute Koordination das Projekt deutlich erleichtert hat. Durch regelmäßige Meetings und das Ansprechen von Problemen, konnten wir auftauchenden Probleme vorbeugen und direkt lösen. Jedes Teammitglied konnte seine individuellen Fähigkeiten einsetzen und vom Wissen des anderen profitieren. Es ist außerdem essenziell, genügend Zeit für die Fehlersuche und die intensive Recherchezeit einzuplanen.
